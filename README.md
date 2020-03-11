@@ -55,7 +55,9 @@ redis-cli shutdown
 3. NLTK Installation
 
 ```{bash}
- pip install nltk or sudo pip install -U nltk
+ pip install nltk 
+    (or)
+ sudo pip install -U nltk
 ```
 
 
