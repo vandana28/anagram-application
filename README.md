@@ -45,7 +45,8 @@ redis-server
 ```{bash} 
 redis-cli ping
 ``` 
-will output PONG
+will provide an output 'PONG'
+
 3.Stop : 
 ```{bash}
 redis-cli shutdown
