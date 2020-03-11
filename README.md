@@ -10,6 +10,8 @@ The project is to build an API that allows fast searches for anagrams.`dictionar
 
 - I used the Redis key-value store to store the words of the dictionaries as keys in Redis. Redis is simple to set up and it stores data as key-values pairs as large as 512 MB. Being an in-memory database, data retrieval is much faster than an relational database. Additionally, the problem statement permitted the usage of large amounts of memory and Redis was the perfect choice for this project. Moreover, Redis doesn’t require a schema to be set up. Redis works well for this project but could be too big of a tradeoff for large applications. 
 
+- Used the NLTK's Parts of a speech tagger to detect whether or not a word is a proper noun. A proper noun doesn't nescessarily have to start with a capital letter. NLTK's POS tagger tags proper nouns as NNP. This is an efficient method to filter out proper nouns from the list of redis keys.
+
 
 ## Installations and Running the server
 
@@ -81,6 +83,8 @@ ruby anagram_test.rb
 
 
 
+
+
 ## Additional features that can be added to the API:
 
 1. An API that returns anagrams of a word that start with a particular letter. For instance, return anagrams of 'read' that start with 'd' => {'dear','dare'}
@@ -93,6 +97,10 @@ ruby anagram_test.rb
 4. An API that generates anagrams of phrases instead of words.
 
 ## Edge Cases:
+
+1. Edge cases included whether or not to convert the word to lowercase while storing in Redis. To make operations uniform I stored all words in Redis in their lowercase. However I encountered a problem while dealing with the proper noun endpoint where I had to obtain the proper nouns which were anagrams of the current word. For this purpose I created another redis database that stored words in the form as that of dictionary.txt and compared the current word with those words.
+
+2. Handled the edge case when the 'delete a word' endpoint was called again on a word that was non-existant in the database
 
 
 ## Design Overview and trade-offs
