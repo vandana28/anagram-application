@@ -139,11 +139,62 @@ HTTP/1.0 200 OK
 
 {"Median word length": 12, "average word length": 10, "corpus word count ": 234371, "maximum word length": 24, "minimum word length": 1}%  
 
-7. Most anagrams
+7. Maximum anagram groups
+
+curl -i -X GET http://localhost:3000/getmaxanagrams
+HTTP/1.0 200 OK
+...
+
+(**Note:** Some words in the dictionary maybe be proper nouns but they are stored in their lower case and they happen be anagrams of common words. For instance: words such as 'organ' and 'groan' have anagrams such as 'orang' which is short for Orangutan)
+
+{"max_angrams": 
+{"aelps": ["sepal", "lapse", "salep", "pales", "saple", "speal", "elaps", "spale", "lepas", "slape"], 
+"agnor": ["grano", "rogan", "organ", "argon", "nagor", "ronga", "groan", "angor", "goran", "orang"]}}% 
 
 
+8. Delete a word and all of its anagrams
 
+curl -i -X DELETE 'http://localhost:3000/delwordanagrams/read.json'
+HTTP/1.0 204 NO CONTENT
+...
 
+9. Check if a set of words are anagrams of each other
+
+curl -i -X GET -d '{ "words": ["read", "dear", "dare"] }' http://localhost:3000/checkanagrams/words.json
+HTTP/1.0 200 OK
+...
+True, they are anagrams of each other%
+
+curl -i -X GET -d '{ "words": ["read", "dear", "darr"] }' http://localhost:3000/checkanagrams/words.json
+HTTP/1.0 200 OK
+...
+False, Not anagrams of each other%     
+
+10. Return anagrams of a certain group size
+
+curl -i -X GET 'http://localhost:3000/groupsize?size=7'
+HTTP/1.0 200 OK
+...
+
+sample output : {"groups": 
+{"aacinr": ["crania", "acinar", "carina", "carian", "canari", "arnica", "narica"],
+"abeilt": ["albeit", "albite", "baltei", "bletia", "belait", "libate", "betail"] }
+
+11. Include proper nouns
+
+curl -i -X GET 'http://localhost:3000/propernoun/sail.json?flag=false'
+HTTP/1.0 200 OK
+...
+
+{"anagrams": ["sial", "lasi", "lias"]}% 
+
+**Note** : Here when the proper noun flag is false ( meaning I can't include proper nouns), the word 'Lisa' from dictionary.txt is not included
+
+ curl -i -X GET 'http://localhost:3000/propernoun/sail.json?flag=true' 
+HTTP/1.0 200 OK
+...
+
+{"anagrams": ["sial", "lasi", "lisa", "lias"]}% -> When proper nouns can be included, they are converted to lowercase for convenience sake. Here the word 'Lisa' is included in the list of anagrams
 
 ```
 
