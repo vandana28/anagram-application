@@ -19,6 +19,29 @@ The project is to build an API that allows fast searches for anagrams.`dictionar
 pip install flask
 ```
 
+2. Redis Installation 
+
+```{bash}
+pip install redis 
+```
+If the above command doesn't import redis, then use the following:
+
+```{bash}
+Download from [http://download.redis.io/redis-stable.tar.gz](http://download.redis.io/redis-stable.tar.gz)
+Open a terminal and write the following:
+1. tar xvzf redis-stable.tar.gz
+2. cd redis-stable
+3. make
+4. Add export PATH=$PATH:$HOME/Downloads/redis-stable/src to zshrc on Mac
+5. source ~/.zshrc
+```
+To start and stop Redis:
+
+Start : ```{bash} redis-server ```
+Check if Redis is running : ```{bash} redis-cli ping``` will output PONG
+Stop : ```{bash}redis-cli shutdown```
+
+
 
 
 
