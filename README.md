@@ -215,12 +215,14 @@ HTTP/1.0 200 OK
 
 ## Edge Cases:
 
-1. Edge cases included whether or not to convert the word to lowercase while storing in Redis. To make operations uniform I stored all words in Redis in their lowercase. However I encountered a problem while dealing with the proper noun endpoint where I had to obtain the proper nouns which were anagrams of the current word. For this purpose I created another redis database that stored words in the form as that of dictionary.txt and compared the current word with those words.
+1. Edge cases included whether or not to convert the word to lowercase while storing in Redis. To make operations uniform I stored all words in Redis in their lowercases. Additionally when the user provides an input word that is in its uppercase, I've converted the word to lowercase before processing it.
+- However I encountered a problem while dealing with the proper noun endpoint where I had to include proper nouns which were anagrams of the current word to the list. For this purpose I created another redis database that stored words similar to dictionary.txt and compared the current word with words in the second database.
 
-2. Handled the edge case when the 'delete a word' endpoint was called again on a word that was non-existant in the database
+2. Handled the edge case when 'delete a word' endpoint was called again on a word that was non-existant in the database.
 
 
 ## Design Overview and trade-offs
+
 
 
 
