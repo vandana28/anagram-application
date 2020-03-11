@@ -84,9 +84,12 @@ ruby anagram_test.rb
 ## Additional features that can be added to the API:
 
 1. An API that returns anagrams of a word that start with a particular letter. For instance, return anagrams of 'read' that start with 'd' => {'dear','dare'}
+
 2. An API that returns the position of a particular letter in a group of anagrams.
-3.An API that generates the tenses of words and check if they are are anagrams of a particular word. For instance, the word 'education' is in the dictionary but its anagrams
+
+3. An API that generates the tenses of words and check if they are are anagrams of a particular word. For instance, the word 'education' is in the dictionary but its anagrams
 'auctioned' and 'cautioned' are the past tense of words 'auction' and 'caution' in the dictionary. Tenses can be generated using the Natural Processing language toolkit in python.
+
 4. An API that generates anagrams of phrases instead of words.
 
 ## Edge Cases:
