@@ -131,6 +131,18 @@ curl -i -X DELETE http://localhost:3000/words.json
 HTTP/1.0 204 NO CONTENT
 ...
 
+6. Calculate Metrics
+
+curl -i -X GET http://localhost:3000/calculatemetrics
+HTTP/1.0 200 OK
+...
+
+{"Median word length": 12, "average word length": 10, "corpus word count ": 234371, "maximum word length": 24, "minimum word length": 1}%  
+
+7. Most anagrams
+
+
+
 
 
 ```
