@@ -1,4 +1,4 @@
-# Fast Searches for Anagrams - Ibotta 
+# Fast Searches for Anagrams 
 
 **Question Prompt** 
 
@@ -81,6 +81,16 @@ ruby anagram_test.rb
 
 ## Endpoints and testing:
 
+- `POST /words.json`: Takes a JSON array of English-language words and adds them to the corpus (data store).
+- `GET /anagrams/:word.json`: Returns a JSON array of English-language words that are anagrams of the word passed in the URL.This endpoint should support an optional query param that indicates the maximum number of results to return.
+- `DELETE /words/:word.json`: Deletes a single word from the data store.
+- `DELETE /words.json`: Deletes all contents of the data store.
+- `GET /calculatemetrics`: returns a count of words in the corpus and min/max/median/average word length
+- `GET /getmaxanagrams` : Endpoint that identifies words with the most anagrams
+- `DELETE /delwordanagrams` : Endpoint to delete a word *and all of its anagrams*
+- `GET /checkanagrams/words.json` : Endpoint that takes a set of words and returns whether or not they are all anagrams of each other
+- `GET /groupsize` : Endpoint to return all anagram groups of size >= *x*
+- `GET /propernoun/:word.json` : Respect a query param for whether or not to include proper nouns in the list of anagrams
 
 
 
