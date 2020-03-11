@@ -10,7 +10,8 @@ The project is to build an API that allows fast searches for anagrams.`dictionar
 
 - I used the Redis key-value store to store the words of the dictionaries as keys in Redis. Redis is simple to set up and it stores data as key-values pairs as large as 512 MB. Being an in-memory database, data retrieval is much faster than an relational database. Additionally, the problem statement permitted the usage of large amounts of memory and Redis was the perfect choice for this project. Moreover, Redis doesn’t require a schema to be set up. Redis works well for this project but could be too big of a tradeoff for large applications. 
 
-- Used the NLTK's Parts of a speech tagger to detect whether or not a word is a proper noun. A proper noun doesn't nescessarily have to start with a capital letter. NLTK's POS tagger tags proper nouns as NNP. This is an efficient method to filter out proper nouns from the list of redis keys.
+- I additionally used the NLTK's Parts of a speech tagger to detect whether or not a word is a proper noun. The package tags a word with 'NNP' if it is a proper noun. This is essential because non-proper nouns can be stored with a capital letter in the file. Additionally, words such as 'Alphonsine' and 'Canberra' weren't detected as proper nouns by NLTK's POS tagger. POS tagger works well with sentences and phrases since it takes into consideration the word that are located before and after the current word. Moreover, it apply rules to eliminate certain tags for a word based on its context.Even though the keys in 
+Redis aren't sentences, the POS tagger is an efficient method to filter out proper nouns from the list of redis keys.
 
 
 ## Installations and Running the server
@@ -36,7 +37,7 @@ Open a terminal and write the following:
 3. make
 4. Add export PATH=$PATH:$HOME/Downloads/redis-stable/src to zshrc on Mac
 5. source ~/.zshrc
-6. restart redis server
+6. restart redis server - redis-server
 ```
 To start and stop Redis:
 
@@ -206,10 +207,9 @@ HTTP/1.0 200 OK
 
 1. An API that returns anagrams of a word that start with a particular letter. For instance, return anagrams of 'read' that start with 'd' => {'dear','dare'}
 
-2. An API that returns the position of a particular letter in a group of anagrams.
+2. An API that returns the position of a particular letter in a group of anagrams. Eg: the letter 'e' is at position 2 for 'dear' and position 4 for 'dare'
 
-3. An API that generates the tenses of words and check if they are are anagrams of a particular word. For instance, the word 'education' is in the dictionary but its anagrams
-'auctioned' and 'cautioned' are the past tense of words 'auction' and 'caution' in the dictionary. Tenses can be generated using the Natural Processing language toolkit in python.
+3. An API that generates the tenses of words and check if they are are anagrams of a particular word. For instance, the word 'education' is in the dictionary but its anagrams 'auctioned' and 'cautioned' are the past tense of words 'auction' and 'caution' in the dictionary. Tenses can be generated using [nodeBox - Linguistics](https://www.nodebox.net/code/index.php/Linguistics#verb_conjugation)
 
 4. An API that generates anagrams of phrases instead of words.
 
@@ -221,6 +221,8 @@ HTTP/1.0 200 OK
 
 
 ## Design Overview and trade-offs
+
+
 
 
 
