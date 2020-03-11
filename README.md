@@ -59,6 +59,25 @@ redis-cli shutdown
     (or)
  sudo pip install -U nltk
 ```
+4. To run the app:
+
+```{bash}
+python3 server.py
+```
+5. To check in browser:
+
+```{bash}
+http://localhost:3000/<endpoint>
+```
+
+6. To run the tests:
+
+```{bash}
+ruby anagram_test.rb
+```
+
+
+
 
 
 
