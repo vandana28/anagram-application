@@ -37,9 +37,9 @@ Open a terminal and write the following:
 ```
 To start and stop Redis:
 
-Start : ```{bash} redis-server ```
-Check if Redis is running : ```{bash} redis-cli ping``` will output PONG
-Stop : ```{bash}redis-cli shutdown```
+1.Start : ```{bash} redis-server ```
+2.Check if Redis is running : ```{bash} redis-cli ping``` will output PONG
+3.Stop : ```{bash}redis-cli shutdown```
 
 
 
