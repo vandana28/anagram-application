@@ -79,7 +79,7 @@ http://localhost:3000/<endpoint>
 ruby anagram_test.rb
 ```
 
-## Endpoints and testing:
+## Endpoints:
 
 - `POST /words.json`: Takes a JSON array of English-language words and adds them to the corpus (data store).
 - `GET /anagrams/:word.json`: Returns a JSON array of English-language words that are anagrams of the word passed in the URL.This endpoint should support an optional query param that indicates the maximum number of results to return.
@@ -92,7 +92,48 @@ ruby anagram_test.rb
 - `GET /groupsize` : Endpoint to return all anagram groups of size >= *x*
 - `GET /propernoun/:word.json` : Respect a query param for whether or not to include proper nouns in the list of anagrams
 
+## Testing:
 
+I tested all endpoints using POSTMAN API client by providing appropriate sample inputs.
+Additionally I ran the `anagram_test.rb` script to test the mandatory endpoints.
+
+```{bash}
+1. adding words to the corpus:
+
+curl -i -X POST -d '{ "words": ["read", "dear", "dare"] }' http://localhost:3000/words.json
+HTTP/1.0 201 CREATED
+...
+Words have been added to the corpus% 
+
+2. Fetching anagrams:
+curl -i http://localhost:3000/anagrams/read.json
+HTTP/1.0 200 OK
+...
+
+{"anagrams": ["ared", "dear", "dare", "daer"]}% 
+
+3. Specifying maximum number of anagrams
+
+curl -i http://localhost:3000/anagrams/read.json?limit=1
+HTTP/1.0 200 OK
+...
+
+{"anagrams": ["ared"]}% 
+
+4. Delete single word
+
+curl -i -X DELETE http://localhost:3000/words/read.json
+HTTP/1.0 204 NO CONTENT
+...
+
+5. Delete all words
+curl -i -X DELETE http://localhost:3000/words.json
+HTTP/1.0 204 NO CONTENT
+...
+
+
+
+```
 
 
 ## Additional features that can be added to the API:
