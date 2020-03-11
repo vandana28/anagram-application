@@ -37,21 +37,26 @@ Open a terminal and write the following:
 ```
 To start and stop Redis:
 
-1. Start : 
+- Start : 
 ```{bash} 
 redis-server 
 ```
-2. Check if Redis is running : 
+- Check if Redis is running : 
 ```{bash} 
 redis-cli ping
 ``` 
 will provide an output 'PONG'
 
-3. Stop : 
+- Stop : 
 ```{bash}
 redis-cli shutdown
 ```
 
+3. NLTK Installation
+
+```{bash}
+ pip install nltk or sudo pip install -U nltk
+```
 
 
 
