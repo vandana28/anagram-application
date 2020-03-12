@@ -194,7 +194,7 @@ def checkanagrams():
         else:
             max_anagrams[sortedword] = [word]
 
-    # the logic here is that, if all the words are anagrams of each other, then there should exist only 1 key in the dictionary
+    # the logic here is that, if all the words are anagrams of each other, there should exist only 1 key in the dictionary.
     # if there are two keys, then there are two groups of anagrams which refer to different letters.
     if len(max_anagrams.items()) == 1:
         return Response(response = "True, they are anagrams of each other",status=200,mimetype="text/html")
