@@ -98,6 +98,8 @@ ruby anagram_test.rb
 I tested all endpoints using POSTMAN API client by providing appropriate sample inputs.
 Additionally I ran the `anagram_test.rb` script to test the mandatory endpoints.
 
+![Ran the test suites](https://github.com/vandana28/anagram-application/blob/master/Screen%20Shot%202020-03-11%20at%209.19.14%20PM.png)
+
 
 1. adding words to the corpus:
 
