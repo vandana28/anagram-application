@@ -35,7 +35,7 @@ Open a terminal and write the following:
 1. tar xvzf redis-stable.tar.gz
 2. cd redis-stable
 3. make
-4. Add export PATH=$PATH:$HOME/Downloads/redis-stable/src to zshrc or bashrc
+4. Add export PATH=$PATH:$HOME/Downloads/redis-stable/src to zshrc
 5. source ~/.zshrc
 6. restart the redis server by : redis-server
 ```
