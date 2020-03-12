@@ -227,7 +227,7 @@ HTTP/1.0 200 OK
 
 - Since, the focus was on fast retrieval of words, I decided to have additional memory to aid my process. Here the trade-off was to give time more priority than space. 
 
-- Throughout my program, I abstracted similar functionality into separate functions to make the code less coupled and cleaner.
+- Throughout my program, I abstracted similar functionality into separate functions to make code less coupled and cleaner.
 
 - Another trade-off arose when deciding to use Flask or Django. Flask being a minimalistic framework lacks some functionality when compared to a full-fledged framework such as Django. For instance Flask lacks authetication, input validation etc and it requires third-party plugins to help faciliate these functions. However Flask is very easy to use and extensible. Since Flask keeps the core simple and lightweight, it was the perfect framework to use for this application.
 
