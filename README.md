@@ -37,7 +37,7 @@ Open a terminal and write the following:
 3. make
 4. Add export PATH=$PATH:$HOME/Downloads/redis-stable/src to zshrc on Mac
 5. source ~/.zshrc
-6. restart redis server - redis-server
+6. restart the redis server by : redis-server
 ```
 To start and stop Redis:
 
