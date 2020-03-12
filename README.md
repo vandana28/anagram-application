@@ -29,8 +29,8 @@ pip install redis
 ```
 If the above command doesn't import redis, then use the following:
 
-```{bash}
 Download from [http://download.redis.io/redis-stable.tar.gz](http://download.redis.io/redis-stable.tar.gz)
+```{bash}
 Open a terminal and write the following:
 1. tar xvzf redis-stable.tar.gz
 2. cd redis-stable
