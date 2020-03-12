@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 # database  connection to Redis
 # redis_db - redis db object that corresponds to lowercase words.
-# redis_db2 - redis db object that corresponds to how words are maintained in `dictioanry.txt`
+# redis_db2 - redis db object that corresponds to the `dictioanry.txt` format
 redis_db = redis.Redis(host="localhost",port = "6379", db=0)
 redis_db2 = redis.Redis(host="localhost",port = "6379",db=1)
 
