@@ -223,7 +223,7 @@ HTTP/1.0 200 OK
 
 ## Design Overview and trade-offs
 
-- The entire dictionary is ingested once into Redis. I'm maintaining two redis databases, one that works with words in their lower cases and the other database mimics the words of the dictionary text file. I created two databases to avoid conficts when the proper noun end point is triggered. I used the NLTK library to identify proper nouns in the second database and created a separate list L1 that excluded proper nouns. Finally, the anagrams obtained in L1 don't contain proper nouns. 
+- The entire dictionary is ingested once into Redis. I'm maintaining two redis databases, one that works with words in their lower cases and the other database mimics the words of the dictionary text file. I created two databases to avoid conficts when the proper noun end point is triggered. I used the NLTK library to identify proper nouns in the second database and created a separate list L1 that excluded proper nouns. Finally, the anagrams obtained through L1 are proper noun free. 
 
 - Since, the focus was on fast retrieval of words, I decided to have additional memory to aid my process. Here the trade-off was to give time more priority than space. 
 
