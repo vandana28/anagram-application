@@ -1,3 +1,5 @@
+## Fast Searches for Anagrams - Flask
+
 import requests
 from flask import Flask, request,Response
 import jsonpickle
@@ -8,6 +10,9 @@ import nltk
 
 app = Flask(__name__)
 
+# database  connection to Redis
+# redis_db - redis db object that corresponds to lowercase words.
+# redis_db2 - redis db object that corresponds to how words are maintained in `dictioanry.txt`
 redis_db = redis.Redis(host="localhost",port = "6379", db=0)
 redis_db2 = redis.Redis(host="localhost",port = "6379",db=1)
 
@@ -15,13 +20,14 @@ redis_db2 = redis.Redis(host="localhost",port = "6379",db=1)
 basedir = os.path.abspath(os.path.dirname(__file__))
 data_file = os.path.join(basedir, 'static/dictionary.txt')
 
+# removed the last character of the word which was `\n` while storing in redis db.
 with open(data_file, "r") as file:
     for line in file.readlines():
         redis_db.set(line[:-1].lower(), "")
         redis_db2.set(line[:-1], "")
 
 
-
+## Abstracted functions
 def generate_anagrams(word):  
     word = word.lower()
     if len(word) <=1:
@@ -36,7 +42,6 @@ def generate_anagrams(word):
         return anagrams
 
 def groupAnagrams():
-
     max_anagrams = {}
     for key in redis_db.scan_iter("*"):
         key = key.decode("utf-8")
@@ -62,6 +67,7 @@ def listProperNouns():
             properNoun_words.append(tagged_word[0][0])
     return (all_words,properNoun_words)
    
+# 1. Adding words to redis corpus.
 @app.route('/words.json',methods=['POST'])
 def addwords():
     data = request.get_json(force = True)
@@ -69,12 +75,11 @@ def addwords():
         word = word.lower()
         if redis_db.get(word) == None:
             redis_db.set(word,"")   
-        # redis_db.set(word, pickle.dumps(anagrams))
-        # print(pickle.loads(redis_db.get(word)))
     message = "Words have been added to the corpus"
 
     return Response(response=message, status=201, mimetype="text/html")
 
+# 2. Endpoint to find anagrams of a current word. Limit parameter included
 @app.route('/anagrams/<X>',methods=['GET'])
 def findAnagrams(X):
     new_word = X.split(".")[0] 
@@ -96,9 +101,11 @@ def findAnagrams(X):
             "anagrams": final_anagrams
         }
 
+    # reponse is pickled through jsonpickle library in python and sent as a response
     response_pickled = jsonpickle.encode(response)
     return Response(response=response_pickled,status=200, mimetype="application/json")
 
+#  3. Endpoint to delete a particular word in redis
 @app.route('/words/<X>',methods=['DELETE'])
 def deleteword(X):
     new_word = X.split(".")[0] 
@@ -110,6 +117,7 @@ def deleteword(X):
         message = "Word not found"
         return Response(response=message,status=404,mimetype="text/html")
 
+# 4. Endpoint to delete all words 
 @app.route('/words.json',methods=['DELETE'])
 def deleteDataStore():
     redis_db.flushall()
@@ -147,8 +155,18 @@ def maxAnagrams():
     max_anagrams = groupAnagrams()
     max_length = (max(max_anagrams.items(), key = lambda k : len(k[1])))
     max_value = len(max_length[1])
-    print([{key:value} for key,value in max_anagrams.items() if len(value)== max_value])  
-    return Response(response='Groups with maximum anagrams returned',status = 200,mimetype="text/html")
+    final = {}
+    for key,value in max_anagrams.items():
+        if len(value) == max_value:
+            final[key] = value
+    response ={
+        "max_angrams" : final
+    }
+
+    # print([{key:value} for key,value in max_anagrams.items() if len(value)== max_value])  
+
+    response_pickled = jsonpickle.encode(response)
+    return Response(response=response_pickled,status=200, mimetype="application/json")
 
 
 ## 3. Endpoint to delete a word *and all of its anagrams*
@@ -168,8 +186,17 @@ def delWordAnagrams(X):
 @app.route('/checkanagrams/words.json',methods = ['GET'])
 def checkanagrams():
     data = request.get_json(force = True)
-    anagrams = groupAnagrams()
-    if len(anagrams.items()) == 1:
+    max_anagrams ={}
+    for word in data["words"]:
+        sortedword = "".join(sorted(word))
+        if sortedword in max_anagrams:
+            max_anagrams[sortedword].append(word)
+        else:
+            max_anagrams[sortedword] = [word]
+
+    # the logic here is that, if all the words are anagrams of each other, then there should exist only 1 key in the dictionary
+    # if there are two keys, then there are two groups of anagrams which refer to different letters.
+    if len(max_anagrams.items()) == 1:
         return Response(response = "True, they are anagrams of each other",status=200,mimetype="text/html")
     else:
         return Response(response = "False, Not anagrams of each other",status=200,mimetype="text/html")
@@ -180,24 +207,29 @@ def checkanagrams():
 def anagramGroupSize():
     size = request.args.get('size')
     groups = groupAnagrams()
+    final = {}
     for key,value in groups.items():
         if len(value) >=int(size):
-            print(key,value)
- 
-    return Response(response='Anagrams of required group size returned',status = 200,mimetype="text/html")
+            final[key] = value
+    response ={
+        "groups" : final
+    }    
+
+    response_pickled = jsonpickle.encode(response)
+    return Response(response=response_pickled,status=200, mimetype="application/json")
 
 
 ## 6. Respect a query param for whether or not to include proper nouns in the list of anagrams
 
-''' for proper nouns, the redis db needs to be filled with common nouns and proper nouns
- if proper nouns can be included, then anagrams can be found and should be equated 
-to lower case of the redis word. '''
-''' if proper nouns can be included as anagarms, all words are treated as normal and it
-    it doesn't matter if their upper case or lower case.'''
-    # generate anagrams will convert the word into lower case before checking
-''' If proper nouns cannot be included as anagrams, we need to discard them from 
-the all words list in redis, convert the remaining all_words to lower case and then
-compute the anagrams
+
+''' 1. if proper nouns can be included as anagarms(TRUE), all words are treated as normal and it
+    it doesn't matter if their upper case or lower case. So the general anagram function can be utilized.
+
+    2. the generate anagrams function converts the word into lower case before checking the redis database
+
+    3.If proper nouns cannot be included as anagrams(FALSE), we need to discard them from the list of all words 
+    . Once the proper nouns are removed, the  remaining words are converted to lower case and the 
+        anagrams are then computed. Redis db 2 is scanned to obtain proper nouns. 
 '''
 @app.route('/propernoun/<X>',methods = ['GET'])
 def propernoun(X):
