@@ -101,7 +101,7 @@ def findAnagrams(X):
             "anagrams": final_anagrams
         }
 
-    # The anagram list is pickled through jsonpickle library in python and sent as a response
+    # The anagram list is pickled the through jsonpickle library in python and sent as a response
     response_pickled = jsonpickle.encode(response)
     return Response(response=response_pickled,status=200, mimetype="application/json")
 
