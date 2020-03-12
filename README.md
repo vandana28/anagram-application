@@ -198,9 +198,9 @@ HTTP/1.0 200 OK
  curl -i -X GET 'http://localhost:3000/propernoun/sail.json?flag=true' 
 HTTP/1.0 200 OK
 ...
-
-{"anagrams": ["sial", "lasi", "lisa", "lias"]}% -> When proper nouns can be included, they are converted to lowercase for convenience sake. Here the word 'Lisa' is included in the list of anagrams
+{"anagrams": ["sial", "lasi", "lisa", "lias"]}%  
 ```
+- When proper nouns can be included, they are first converted to lowercase for convenience sake. Here the word 'Lisa' is included in the list of anagrams
 
 
 ## Additional features that can be added to the API:
